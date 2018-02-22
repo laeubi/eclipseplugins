@@ -1,0 +1,51 @@
+/*******************************************************************************
+ * Copyright (c) 2018 Christoph Läubrich
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/legal/epl-v20.html
+ *
+ * Contributors:
+ *      Christoph Läubrich - initial API and implementation
+ *******************************************************************************/
+package de.laeubisoft.eclipseplugins.target.maven.provider;
+
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
+
+import de.laeubisoft.eclipseplugins.target.maven.MavenTargetBundle;
+import de.laeubisoft.eclipseplugins.target.maven.adapter.MavenTargetAdapterFactory;
+
+@SuppressWarnings("restriction")
+public class MavenTargetBundleLabelProvider
+		extends org.eclipse.pde.internal.ui.shared.target.StyledBundleLabelProvider {
+
+	private Image image;
+
+	public MavenTargetBundleLabelProvider() {
+		super(true, false);
+	}
+
+	public org.eclipse.swt.graphics.Image getImage(Object element) {
+		if (element instanceof MavenTargetBundle) {
+			if (((MavenTargetBundle) element).isWrapped()) {
+				Display current = Display.getCurrent();
+				if (image == null && current != null) {
+					image = new Image(current,
+							MavenTargetAdapterFactory.class.getResourceAsStream("/icons/jar_obj.gif"));
+				}
+				return image;
+			}
+		}
+		return super.getImage(element);
+	};
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (image != null) {
+			image.dispose();
+		}
+	}
+
+}

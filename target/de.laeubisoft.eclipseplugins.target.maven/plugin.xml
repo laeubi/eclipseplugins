@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+    <extension
+          point="org.eclipse.pde.core.targetLocations">
+       <targetLocation
+             canUpdate="true"
+             locationFactory="de.laeubisoft.eclipseplugins.target.maven.MavenTargetLocationFactory"
+             type="Maven">
+       </targetLocation>
+    </extension>
+    <extension
+          point="org.eclipse.pde.ui.targetLocationProvisioners">
+       <locationProvider
+             class="de.laeubisoft.eclipseplugins.target.maven.editor.MavenTargetLocationWizard"
+             icon="icons/m2.gif"
+             id="org.eclipse.pde.ui.target.maven.locationProvider1"
+             name="Maven">
+             <description>
+	            Add a maven artifact (and dependencies) to your target platform
+	         </description>
+       </locationProvider>
+       
+    </extension>
+    <extension
+          point="org.eclipse.core.runtime.adapters">
+       <factory
+             adaptableType="de.laeubisoft.eclipseplugins.target.maven.MavenTargetLocation"
+             class="de.laeubisoft.eclipseplugins.target.maven.adapter.MavenTargetAdapterFactory">
+          <adapter
+                type="org.eclipse.jface.viewers.ILabelProvider">
+          </adapter>
+          <adapter
+                type="org.eclipse.jface.viewers.ITreeContentProvider">
+          </adapter>
+          <adapter
+                type="org.eclipse.pde.ui.target.ITargetLocationEditor">
+          </adapter>
+          <adapter
+                type="org.eclipse.pde.ui.target.ITargetLocationUpdater">
+          </adapter>
+       </factory>
+    </extension>
+    <extension
+          point="org.eclipse.core.runtime.adapters">
+       <factory
+             adaptableType="de.laeubisoft.eclipseplugins.target.maven.MavenTargetBundle"
+             class="de.laeubisoft.eclipseplugins.target.maven.adapter.MavenTargetBundleAdapterFactory">
+          <adapter
+                type="org.eclipse.jface.viewers.ILabelProvider">
+          </adapter>
+       </factory>
+    </extension>
+    <extension
+          point="org.eclipse.core.runtime.adapters">
+       <factory
+             adaptableType="org.eclipse.aether.graph.DependencyNode"
+             class="de.laeubisoft.eclipseplugins.target.maven.adapter.DependencyNodeAdapterFactory">
+          <adapter
+                type="org.eclipse.jface.viewers.ITreeContentProvider">
+          </adapter>
+          <adapter
+                type="org.eclipse.jface.viewers.ILabelProvider">
+          </adapter>
+       </factory>
+    </extension>
+</plugin>
