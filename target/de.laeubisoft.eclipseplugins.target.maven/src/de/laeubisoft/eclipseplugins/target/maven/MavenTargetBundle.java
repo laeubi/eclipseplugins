@@ -69,7 +69,7 @@ public class MavenTargetBundle extends TargetBundle {
 			bundle = new TargetBundle(file);
 		} catch (Exception ex) {
 			status = new Status(Status.ERROR, MavenTargetBundle.class.getPackage().getName(),
-					bundleInfo.getSymbolicName() + " (" + bundleInfo.getVersion() + ") is not a bundle", ex);
+					bundleInfo.getSymbolicName() + " (" + createBundleVersion(bundleInfo) + ") is not a bundle", ex);
 			try {
 				File wrappedFile = new File(file.getParentFile(), file.getName() + ".wrappedjar");
 				if (!wrappedFile.exists() || wrappedFile.lastModified() < file.lastModified()) {
@@ -82,9 +82,8 @@ public class MavenTargetBundle extends TargetBundle {
 							}
 							analyzer.setProperty(Analyzer.IMPORT_PACKAGE, "*;resolution:=optional");
 							analyzer.setProperty(Analyzer.EXPORT_PACKAGE, "*");
-							analyzer.setProperty(Analyzer.BUNDLE_SYMBOLICNAME, bundleInfo.getSymbolicName()
-									.replaceAll("[^a-zA-Z_0-9.-]", "_").replaceAll("__+", "_"));
-							analyzer.setBundleVersion(bundleInfo.getVersion());
+							analyzer.setProperty(Analyzer.BUNDLE_SYMBOLICNAME, createSymbolicName(bundleInfo));
+							analyzer.setBundleVersion(createBundleVersion(bundleInfo));
 							jar.setManifest(analyzer.calcManifest());
 							jar.write(wrappedFile);
 						}
@@ -94,15 +93,30 @@ public class MavenTargetBundle extends TargetBundle {
 				isWrapped = true;
 			} catch (Exception e) {
 				// not possible then
-				status = new Status(
-						Status.ERROR, MavenTargetBundle.class.getPackage().getName(), bundleInfo.getSymbolicName()
-								+ " (" + bundleInfo.getVersion() + ") is not a bundle and cannot be wrapped as such ",
-						e);
+				String message = bundleInfo.getSymbolicName() + " (" + createBundleVersion(bundleInfo)
+						+ ") is not a bundle and cannot be wrapped as such ";
+				if (e.getMessage() != null) {
+					message += " (" + e.getMessage() + ")";
+				}
+				status = new Status(Status.ERROR, MavenTargetBundle.class.getPackage().getName(), message, e);
 			}
 
 		}
 	}
-	
+
+	private String createBundleVersion(BundleInfo bundleInfo) {
+		String version = bundleInfo.getVersion();
+		if (version == null || version.isEmpty()) {
+			return "0";
+		}
+		return version.replaceAll("[^a-zA-Z0-9-]", "_").replaceAll("__+", "_");
+	}
+
+	private String createSymbolicName(BundleInfo bundleInfo) {
+		return bundleInfo.getSymbolicName()
+				.replaceAll("[^a-zA-Z0-9-]", "_").replaceAll("__+", "_");
+	}
+
 	public boolean isWrapped() {
 		return isWrapped;
 	}

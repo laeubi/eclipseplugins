@@ -133,7 +133,7 @@ public class MavenTargetLocation extends AbstractBundleContainer {
 
 	private TargetBundle createTargetBundle(Artifact artifact) {
 		File file = artifact.getFile();
-		BundleInfo bundleInfo = new BundleInfo(artifact.getGroupId() + ":" + artifact.getArtifactId(),
+		BundleInfo bundleInfo = new BundleInfo(artifact.getGroupId() + "." + artifact.getArtifactId(),
 				artifact.getVersion(), file != null ? file.toURI() : null, -1, false);
 		return new MavenTargetBundle(bundleInfo, file);
 	}
@@ -207,7 +207,9 @@ public class MavenTargetLocation extends AbstractBundleContainer {
 		xml.append(getType());
 		xml.append("\" includeDependencies=\"");
 		xml.append(includeDependencies);
-		xml.append("\">");
+		xml.append("\" dependencyScope=\"");
+		xml.append(dependencyScope);
+		xml.append("\" >");
 		xml.append("<groupId>");
 		xml.append(groupId);
 		xml.append("</groupId>");

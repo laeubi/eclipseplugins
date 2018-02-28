@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Running Platform" sequenceNumber="5">
+<?pde version="3.8"?><target name="Running Platform" sequenceNumber="10">
 <locations>
 <location path="${eclipse_home}" type="Profile"/>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
@@ -7,10 +7,5 @@
 <repository location="https://dl.bintray.com/bndtools/bndtools/latest/"/>
 </location>
 </locations>
-<environment>
-<os>linux</os>
-<ws>gtk</ws>
-<arch>x86_64</arch>
-<nl>de_DE</nl>
-</environment>
+<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 </target>

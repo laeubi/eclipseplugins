@@ -125,7 +125,7 @@ public class MavenTargetLocationWizard extends Wizard implements ITargetLocation
 			targetLocation = new MavenTargetLocation(groupId.getText(), artifactId.getText(), version.getText(),
 					type.getText(), includeDependencies.getSelection(), scope.getText());
 		} else {
-			targetLocation.update(artifactId.getText(), groupId.getText(), version.getText(), type.getText(),
+			targetLocation.update(groupId.getText(), artifactId.getText(), version.getText(), type.getText(),
 					includeDependencies.getSelection(), scope.getText());
 		}
 		return true;
